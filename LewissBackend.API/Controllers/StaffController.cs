@@ -7,7 +7,7 @@ namespace LewissBackend.API.Controllers;
 [Route("[controller]")]
 public class StaffController : ControllerBase
 {
-    private static readonly string[] Staff =
+    private static readonly List<string> Staff =
     [
       "Joshua"
     ];
