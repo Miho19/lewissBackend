@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="LewissBackend.API.Tests/LewissBackend.API.Tests.csproj" />
+  <Project Path="LewissBackend.API/LewissBackend.API.csproj" />
+</Solution>
