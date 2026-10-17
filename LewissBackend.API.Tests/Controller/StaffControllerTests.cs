@@ -43,7 +43,7 @@ public class StaffControllerTests
 
 
     [Fact]
-    public async Task GetStaff_ReturnsStatusCode404AndNoList_WhenCalled()
+    public async Task GetStaff_ReturnsStatusCode204AndEmptyList_WhenCalled()
     {
         var staffServiceMock = new Mock<IStaffService>();
         staffServiceMock.Setup(service => service.GetStaffListAsync(It.IsAny<CancellationToken>()))
@@ -56,7 +56,7 @@ public class StaffControllerTests
         Assert.NotNull(response);
         var okObjectResult = Assert.IsType<OkObjectResult>(response);
 
-        Assert.Equal(okObjectResult.StatusCode, StatusCodes.Status200OK);
+        Assert.Equal(okObjectResult.StatusCode, StatusCodes.Status204NoContent);
 
         var value = okObjectResult.Value;
 
