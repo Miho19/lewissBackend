@@ -8,22 +8,11 @@ Simple backend to mimic GRAPH API used by frontend
 
     GET
 
-#### Folder
-
-    GET
-
-### File
-
-    GET
-
-### Pricing Schedule
-
-    GET
-
-## Replicating
+### functions/
 
 | METHOD | ACTION       | Param    | Substitute |
 | ------ | ------------ | -------- | ---------- |
 | POST   | downloadJson | itemId   | GET File   |
-| GET    |              |          | GET Staff  |
 | POST   | listFolder   | folderId | GET Folder |
+
+Get root folder, staff folder, project file, pricing schedules
