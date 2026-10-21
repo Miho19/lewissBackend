@@ -18,7 +18,7 @@ public class StaffService : IStaffService
     ];
 
 
-    async public Task<Result<List<StaffDTO>>> GetStaffListAsync(CancellationToken cancellationToken)
+    public async Task<Result<List<StaffDTO>>> GetStaffListAsync(CancellationToken cancellationToken)
     {
         if (staffEntities.Count == 0) return Result.Fail("Staff list is empty");
 

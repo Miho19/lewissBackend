@@ -25,8 +25,6 @@ public class NetlifyControllerTests
         Assert.NotNull(response);
         var result = Assert.IsType<OkObjectResult>(response);
 
-
-
     }
 
 }
