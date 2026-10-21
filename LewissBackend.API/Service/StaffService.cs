@@ -4,7 +4,13 @@ using LewissBackend.API.Model.Entity;
 
 namespace LewissBackend.API.Service;
 
-public class StaffService
+
+public interface IStaffService
+{
+    Task<Result<List<StaffDTO>>> GetStaffListAsync(CancellationToken cancellationToken);
+}
+
+public class StaffService : IStaffService
 {
     private readonly List<StaffEntity> staffEntities = [
         new StaffEntity() {name = "Joshua", function = "Consultant", secret = "Random Secret"},
@@ -12,9 +18,9 @@ public class StaffService
     ];
 
 
-    async public Task<Result<List<StaffDTO>>> GetStaffList()
+    async public Task<Result<List<StaffDTO>>> GetStaffListAsync(CancellationToken cancellationToken)
     {
-        if (staffEntities.Count == 0) return Result.Fail("List is empty");
+        if (staffEntities.Count == 0) return Result.Fail("Staff list is empty");
 
         var staffList = new List<StaffDTO>();
 

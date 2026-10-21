@@ -1,5 +1,6 @@
 using FluentResults;
 using LewissBackend.API.Controller;
+using LewissBackend.API.CustomError;
 using LewissBackend.API.Model.DTO;
 using LewissBackend.API.Service;
 using LewissBackend.API.Tests.Fixtures;
@@ -47,20 +48,16 @@ public class StaffControllerTests
     {
         var staffServiceMock = new Mock<IStaffService>();
         staffServiceMock.Setup(service => service.GetStaffListAsync(It.IsAny<CancellationToken>()))
-        .ReturnsAsync(Result.Fail("Empty List"));
+        .ReturnsAsync(Result.Fail(new ListEmptyError("Staff List")));
 
         var staffController = new StaffController(staffServiceMock.Object);
         var cancellationToken = new CancellationToken();
         var response = await staffController.GetStaff(cancellationToken);
 
         Assert.NotNull(response);
-        var okObjectResult = Assert.IsType<OkObjectResult>(response);
+        var resultObject = Assert.IsType<NoContentResult>(response);
 
-        Assert.Equal(okObjectResult.StatusCode, StatusCodes.Status204NoContent);
-
-        var value = okObjectResult.Value;
-
-
+        Assert.Equal(StatusCodes.Status204NoContent, resultObject.StatusCode);
 
 
     }
