@@ -1,3 +1,5 @@
+using LewissBackend.API.Model.DTO;
+using LewissBackend.API.Service;
 using Xunit.Abstractions;
 
 namespace LewissBackend.API.Tests.Service;
@@ -12,12 +14,20 @@ public class NetlifyServiceTests
     }
 
     [Fact]
-    public async Task()
+    public async Task GetRequestedItemAsync_ReturnsJson_ValidDownloadJsonPayload()
     {
-        // Given
+        var netlifyService = new NetlifyService();
+        var payload = new DownloadJsonAction()
+        {
+            itemId = "123456"
+        };
 
-        // When
+        var cancellationToken = new CancellationToken();
 
-        // Then
+        var result = await netlifyService.GetRequestedItemAsync(payload, cancellationToken);
+
+
+        Assert.NotNull(result);
+
     }
 }

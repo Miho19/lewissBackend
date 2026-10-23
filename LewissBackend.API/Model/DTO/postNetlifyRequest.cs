@@ -1,5 +1,7 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentResults;
+using LewissBackend.API.Data;
 
 namespace LewissBackend.API.Model.DTO;
 
@@ -8,16 +10,18 @@ namespace LewissBackend.API.Model.DTO;
 [JsonDerivedType(typeof(ListFolderAction), typeDiscriminator: "listFolder")]
 public abstract class NetlifyRequestPayloadDTO
 {
-    public abstract Task<Result<Object>> HandleRequestAsync();
+    public abstract Task<Result<JsonElement>> HandleRequestAsync();
 }
 
 public class DownloadJsonAction : NetlifyRequestPayloadDTO
 {
     public required string itemId;
 
-    public override Task<Result<object>> HandleRequestAsync()
+    public override async Task<Result<JsonElement>> HandleRequestAsync()
     {
-        throw new NotImplementedException();
+        var projectFile = JsonSerializer.SerializeToElement(JSONItem.GetProjectFile(itemId));
+
+        return Result.Ok(projectFile);
     }
 }
 
@@ -25,7 +29,7 @@ public class ListFolderAction : NetlifyRequestPayloadDTO
 {
     public string folderId = string.Empty;
 
-    public override Task<Result<object>> HandleRequestAsync()
+    public override async Task<Result<JsonElement>> HandleRequestAsync()
     {
         throw new NotImplementedException();
     }
