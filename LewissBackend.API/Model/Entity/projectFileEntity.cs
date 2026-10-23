@@ -15,10 +15,10 @@ public class ProjectFile
 public class Project
 {
     public required string id;
-    public required List<Rooms> rooms;
+    public required List<Room> room;
 }
 
-public class Rooms
+public class Room
 {
     public required string id;
     public required string name;
@@ -43,7 +43,7 @@ public class Fabric
 {
     public required string name;
     public required string collection;
-    public required int multiplier;
+    public required double multiplier;
 
 }
 
@@ -77,7 +77,7 @@ public class Window
     public required int blindAbove;
 
 
-    public required int outsideLeftWidth;
+
     public required string outsideBlindCount;
 
 }
