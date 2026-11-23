@@ -11,119 +11,121 @@ public static class JSONItem
 
         var cellularFabric = new Fabric()
         {
-            name = "Translucent Cotton",
-            collection = "Translucent",
-            multiplier = 1.0
+            Name = "Translucent Cotton",
+            Collection = "Translucent",
+            Multiplier = 1.0
         };
 
         var insideSpec = new KineticsCellularSpec()
         {
-            fabric = cellularFabric,
-            motorisation = "",
-            controlSide = "left",
-            bracketColour = "white",
-            customColour = false,
-            sideChannels = false,
+            BlindType = "Kinetics 10mm Cellular Blind",
+            Fabric = cellularFabric,
+            Motorisation = "",
+            ControlSide = "left",
+            BracketColour = "white",
+            CustomColour = false,
+            SideChannels = false,
 
         };
 
         var rollerFabric = new Fabric()
         {
-            name = "Back To Nature - Lace Bark",
-            collection = "Back To Nature",
-            multiplier = 0.8
+            Name = "Back To Nature - Lace Bark",
+            Collection = "Back To Nature",
+            Multiplier = 0.8
         };
 
         var outsideSpec = new KineticsRollerSpec()
         {
-            fabric = rollerFabric,
-            motorisation = "lithium",
-            controlSide = "left",
-            rollDirection = "front roll",
-            bracketColour = "black",
-            bottomRailType = "Flat",
-            bottomRailColour = "black",
-            chainColour = "",
-            pelmetType = "",
-            customColour = false
+            BlindType = "Kinetics Blockout Roller Blind",
+            Fabric = rollerFabric,
+            Motorisation = "lithium",
+            ControlSide = "left",
+            RollDirection = "front roll",
+            BracketColour = "black",
+            BottomRailType = "Flat",
+            BottomRailColour = "black",
+            ChainColour = "",
+            PelmetType = "",
+            CustomColour = false
         };
 
         var insideLayer = new Layer()
         {
-            productId = "Kinetics 10mm Cellular Blind",
-            spec = insideSpec
+            ProductId = "Kinetics 10mm Cellular Blind",
+            Spec = insideSpec
         };
 
         var outsideLayer = new Layer()
         {
-            productId = "Kinetics Blockout Roller Blind",
-            spec = outsideSpec
+            ProductId = "Kinetics Blockout Roller Blind",
+            Spec = outsideSpec
         };
 
 
         var treatment = new Treatment()
         {
-            insideLayer = insideLayer,
-            outsideLayer = outsideLayer,
+            InsideLayer = insideLayer,
+            OutsideLayer = outsideLayer,
         };
 
         var window1 = new Window()
         {
-            id = "1",
-            name = "window 1",
-            internalWidth = 1200,
-            internalHeightL = 900,
-            internalHeightR = 900,
-            blindLeftWidth = 0,
-            controlSide = "right",
-            controlLength = "1000",
-            blindCount = "1",
+            Id = "1",
+            Name = "window 1",
+            InternalWidth = 1200,
+            InternalHeightL = 900,
+            InternalHeightR = 900,
+            BlindLeftWidth = 0,
+            ControlSide = "right",
+            ControlLength = "1000",
+            BlindCount = "1",
 
-            blindLeft = 100,
-            blindRight = 100,
-            blindAbove = 240,
-            blindUnderhang = 150,
+            BlindLeft = 100,
+            BlindRight = 100,
+            BlindAbove = 240,
+            BlindUnderhang = 150,
 
-            outsideBlindLeftWidth = 0,
-            outsideBlindCount = "1"
+            OutsideBlindLeftWidth = 0,
+            OutsideBlindCount = "1"
 
         };
 
         var window2 = new Window()
         {
-            id = "2",
-            name = "window 2",
-            internalWidth = 2400,
-            internalHeightL = 1200,
-            internalHeightR = 1200,
-            blindLeftWidth = 0,
-            controlSide = "left",
-            controlLength = "1500",
-            blindCount = "1",
+            Id = "2",
+            Name = "window 2",
+            InternalWidth = 2400,
+            InternalHeightL = 1200,
+            InternalHeightR = 1200,
+            BlindLeftWidth = 0,
+            ControlSide = "left",
+            ControlLength = "1500",
+            BlindCount = "1",
 
-            blindLeft = 100,
-            blindRight = 100,
-            blindAbove = 240,
-            blindUnderhang = 150,
+            BlindLeft = 100,
+            BlindRight = 100,
+            BlindAbove = 240,
+            BlindUnderhang = 150,
 
-            outsideBlindLeftWidth = 0,
-            outsideBlindCount = "1"
+            OutsideBlindLeftWidth = 0,
+            OutsideBlindCount = "1"
 
         };
 
         var room = new Room()
         {
-            id = "roomId",
-            name = "room 1",
-            treatment = treatment,
-            windows = [window1, window2]
+            Id = "roomId",
+            Name = "room 1",
+            Treatment = treatment,
+            Windows = [window1, window2]
         };
 
 
         var project = new Project()
         {
-            id = "randomProjectId",
-            room = [room]
+            Id = "randomProjectId",
+            Room = [room]
         };
 
 
@@ -131,12 +133,13 @@ public static class JSONItem
 
         var projectFile = new ProjectFile()
         {
-            id = projectId,
-            name = "April",
-            reference = "12345-67891",
-            salesConsultant = "Terry Donald",
-            project = project
+            Id = projectId,
+            Name = "April",
+            Reference = "12345-67891",
+            SalesConsultant = "Terry Donald",
+            Project = project
         };
+
 
         return projectFile;
 

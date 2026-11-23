@@ -1,40 +1,68 @@
 
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace LewissBackend.API.Model.Entity;
 
-[JsonPolymorphic(TypeDiscriminatorPropertyName = "blindType")]
-[JsonDerivedType(typeof(KineticsRollerSpec), typeDiscriminator: "Kinetics Sunscreen Roller Blind")]
-[JsonDerivedType(typeof(KineticsRollerSpec), typeDiscriminator: "Kinetics Blockout Roller Blind")]
-[JsonDerivedType(typeof(KineticsRollerSpec), typeDiscriminator: "Kinetics Light Filtering Roller Blind")]
-
-[JsonDerivedType(typeof(KineticsCellularSpec), typeDiscriminator: "Kinetics 10mm Cellular Blind")]
-[JsonDerivedType(typeof(KineticsCellularSpec), typeDiscriminator: "Kinetics 20mm Cellular Blind")]
-
-public class Spec
+public abstract class Spec
 {
-    public required Fabric fabric;
-    public required string motorisation;
-
-    public required string controlSide;
-
+    public required string BlindType { get; set; }
 }
+
+public class BlindTypeSpecConverter : JsonConverter<Spec>
+
+{
+    public override Spec? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        using var doc = JsonDocument.ParseValue(ref reader);
+        var root = doc.RootElement;
+
+        if (!root.TryGetProperty("BlindType", out var blindType))
+        {
+            throw new JsonException("Missing Blind Type property");
+        }
+
+
+        var discriminator = blindType.GetString();
+        var rawJson = root.GetRawText();
+
+        return discriminator switch
+        {
+            "Kinetics 10mm Cellular Blind" or "Kinetics 20mm Cellular Blind" => JsonSerializer.Deserialize<KineticsCellularSpec>(rawJson, options),
+            "Kinetics Sunscreen Roller Blind" or "Kinetics Blockout Roller Blind" or "Kinetics Light Filtering Roller Blind" => JsonSerializer.Deserialize<KineticsRollerSpec>(rawJson, options),
+            _ => throw new JsonException($"Unknown discriminator: {discriminator}")
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, Spec value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+    }
+}
+
 
 public class KineticsRollerSpec : Spec
 {
-    public required string rollDirection;
-    public required string bracketColour;
-    public required string bottomRailType;
-    public required string bottomRailColour;
-    public required string chainColour;
-    public required string pelmetType;
-    public required bool customColour;
+    public required Fabric Fabric { get; set; }
+    public required string ControlSide { get; set; }
+    public required string Motorisation { get; set; }
+    public required string RollDirection { get; set; }
+    public required string BracketColour { get; set; }
+    public required string BottomRailType { get; set; }
+    public required string BottomRailColour { get; set; }
+    public required string ChainColour { get; set; }
+    public required string PelmetType { get; set; }
+    public required bool CustomColour { get; set; }
 }
 
 public class KineticsCellularSpec : Spec
 {
-    public required string bracketColour;
-    public required bool customColour;
-    public required bool sideChannels;
+    public required Fabric Fabric { get; set; }
+    public required string ControlSide { get; set; }
+    public required string Motorisation { get; set; }
+
+    public required string BracketColour { get; set; }
+    public required bool CustomColour { get; set; }
+    public required bool SideChannels { get; set; }
 
 }

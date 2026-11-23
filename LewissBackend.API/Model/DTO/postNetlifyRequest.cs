@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentResults;
 using LewissBackend.API.Data;
+using LewissBackend.API.Model.Entity;
 
 namespace LewissBackend.API.Model.DTO;
 
@@ -19,9 +20,14 @@ public class DownloadJsonAction : NetlifyRequestPayloadDTO
 
     public override async Task<Result<JsonElement>> HandleRequestAsync()
     {
-        var projectFile = JsonSerializer.SerializeToElement(JSONItem.GetProjectFile(itemId));
 
-        return Result.Ok(projectFile);
+        var projectFile = JSONItem.GetProjectFile(itemId);
+
+        var options = new JsonSerializerOptions { Converters = { new BlindTypeSpecConverter() } };
+
+        var serializedObject = JsonSerializer.SerializeToElement(projectFile, options);
+
+        return Result.Ok(serializedObject);
     }
 }
 

@@ -3,47 +3,47 @@ namespace LewissBackend.API.Model.Entity;
 
 public class ProjectFile
 {
-    public required int id;
-    public required string name;
-    public required string reference;
-    public required string salesConsultant;
+    public required int Id { get; set; }
+    public required string Name { get; set; }
+    public required string Reference { get; set; }
+    public required string SalesConsultant { get; set; }
 
-    public required Project project;
+    public required Project Project { get; set; }
 
 }
 
 public class Project
 {
-    public required string id;
-    public required List<Room> room;
+    public required string Id { get; set; }
+    public required List<Room> Room { get; set; }
 }
 
 public class Room
 {
-    public required string id;
-    public required string name;
-    public required Treatment treatment;
-    public required List<Window> windows;
+    public required string Id { get; set; }
+    public required string Name { get; set; }
+    public required Treatment Treatment { get; set; }
+    public required List<Window> Windows { get; set; }
 }
 
 public class Treatment
 {
-    public required Layer insideLayer;
-    public required Layer outsideLayer;
+    public required Layer InsideLayer { get; set; }
+    public required Layer OutsideLayer { get; set; }
 
 }
 
 public class Layer
 {
-    public required string productId;
-    public required Spec spec;
+    public required string ProductId { get; set; }
+    public required Spec Spec { get; set; }
 }
 
 public class Fabric
 {
-    public required string name;
-    public required string collection;
-    public required double multiplier;
+    public required string Name { get; set; }
+    public required string Collection { get; set; }
+    public required double Multiplier { get; set; }
 
 }
 
@@ -52,32 +52,32 @@ public class Fabric
 
 public class Window
 {
-    public required string id;
-    public required string name;
+    public required string Id { get; set; }
+    public required string Name { get; set; }
 
     // inside
-    public required int internalWidth;
-    public required int internalHeightL;
-    public required int internalHeightR;
+    public required int InternalWidth { get; set; }
+    public required int InternalHeightL { get; set; }
+    public required int InternalHeightR { get; set; }
 
     // butting
-    public int blindLeftWidth = 0;
-    public int outsideBlindLeftWidth = 0;
+    public int BlindLeftWidth { get; set; }
+    public int OutsideBlindLeftWidth { get; set; }
 
 
-    public required string controlSide;
-    public required string controlLength;
-    public required string blindCount;
+    public required string ControlSide { get; set; }
+    public required string ControlLength { get; set; }
+    public required string BlindCount { get; set; }
 
 
     // outside
-    public required int blindLeft;
-    public required int blindRight;
-    public required int blindUnderhang;
-    public required int blindAbove;
+    public required int BlindLeft { get; set; }
+    public required int BlindRight { get; set; }
+    public required int BlindUnderhang { get; set; }
+    public required int BlindAbove { get; set; }
 
 
 
-    public required string outsideBlindCount;
+    public required string OutsideBlindCount { get; set; }
 
 }

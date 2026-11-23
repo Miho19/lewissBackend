@@ -14,7 +14,9 @@ public class NetlifyService : INetlifyService
 {
     public async Task<Result<JsonElement>> GetRequestedItemAsync(NetlifyRequestPayloadDTO body, CancellationToken cancellationToken)
     {
-        return await body.HandleRequestAsync();
+        var result = await body.HandleRequestAsync();
+
+        return result;
     }
 }
 

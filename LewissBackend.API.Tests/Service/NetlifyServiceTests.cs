@@ -3,6 +3,7 @@ using FluentResults;
 using LewissBackend.API.Model.DTO;
 using LewissBackend.API.Model.Entity;
 using LewissBackend.API.Service;
+using Microsoft.AspNetCore.Mvc;
 using Xunit.Abstractions;
 
 namespace LewissBackend.API.Tests.Service;
@@ -19,6 +20,7 @@ public class NetlifyServiceTests
     [Fact]
     public async Task GetRequestedItemAsync_ReturnsJson_ValidDownloadJsonPayload()
     {
+
         var netlifyService = new NetlifyService();
 
         var itemId = 12345;
@@ -31,11 +33,20 @@ public class NetlifyServiceTests
         var cancellationToken = new CancellationToken();
 
         var result = await netlifyService.GetRequestedItemAsync(payload, cancellationToken);
-
         Assert.NotNull(result);
-        var jsonElement = Assert.IsType<Result<JsonElement>>(result);
 
-        Assert.Equal(itemId, project.id);
+        var fluentResult = Assert.IsType<Result<JsonElement>>(result);
+
+
+        Assert.True(fluentResult.IsSuccess);
+
+        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new BlindTypeSpecConverter() } };
+        var project = fluentResult.Value.Deserialize<ProjectFile>(options);
+        Assert.NotNull(project);
+
+        Assert.Equal(itemId, project.Id);
+
+
 
 
     }
