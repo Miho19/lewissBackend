@@ -7,12 +7,12 @@ namespace LewissBackend.API.Service;
 
 public interface INetlifyService
 {
-    Task<Result<JsonElement>> GetRequestedItemAsync(NetlifyRequestPayloadDTO json, CancellationToken cancellationToken);
+    Task<Result<string>> GetRequestedItemAsync(NetlifyRequestPayloadDTO json, CancellationToken cancellationToken);
 }
 
 public class NetlifyService : INetlifyService
 {
-    public async Task<Result<JsonElement>> GetRequestedItemAsync(NetlifyRequestPayloadDTO body, CancellationToken cancellationToken)
+    public async Task<Result<string>> GetRequestedItemAsync(NetlifyRequestPayloadDTO body, CancellationToken cancellationToken)
     {
         var result = await body.HandleRequestAsync();
 

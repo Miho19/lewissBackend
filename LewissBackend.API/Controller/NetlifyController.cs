@@ -20,7 +20,16 @@ public class NetlifyController : ControllerBase
 
         var result = await _netlifyService.GetRequestedItemAsync(body, cancellationToken);
 
-        if (result.IsSuccess) return Ok(result.Value);
+        if (result.IsSuccess)
+        {
+            var output = new
+            {
+                ok = true,
+                content = result.Value
+            };
+
+            return Ok(output);
+        }
 
         var error = result.Errors[0];
 

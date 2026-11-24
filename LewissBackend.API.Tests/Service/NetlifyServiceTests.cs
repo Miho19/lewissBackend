@@ -27,7 +27,7 @@ public class NetlifyServiceTests
         var netlifyService = new NetlifyService();
 
         var JSONFileHandlerMock = new Mock<IJSONFileHandler>();
-        JSONFileHandlerMock.Setup(x => x.GetProjectFileAsync(It.IsAny<String>())).ReturnsAsync(new ProjectFile() { Id = itemId });
+        JSONFileHandlerMock.Setup(x => x.GetJSONFileAsync(It.IsAny<String>())).ReturnsAsync(JsonSerializer.Serialize(new ProjectFile() { Id = itemId }));
 
         var payload = new DownloadJsonAction(JSONFileHandlerMock.Object)
         {
@@ -39,14 +39,13 @@ public class NetlifyServiceTests
         var result = await netlifyService.GetRequestedItemAsync(payload, cancellationToken);
         Assert.NotNull(result);
 
-        var fluentResult = Assert.IsType<Result<JsonElement>>(result);
-
-
+        var fluentResult = Assert.IsType<Result<string>>(result);
 
         Assert.True(fluentResult.IsSuccess);
 
+
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new BlindTypeSpecConverter() } };
-        var project = fluentResult.Value.Deserialize<ProjectFile>(options);
+        var project = JsonSerializer.Deserialize<ProjectFile>(fluentResult.Value, options);
         Assert.NotNull(project);
 
         Assert.Equal(itemId, project.Id);

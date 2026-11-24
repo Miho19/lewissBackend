@@ -5,31 +5,40 @@ namespace LewissBackend.API.Data;
 
 public interface IJSONFileHandler
 {
-    Task<ProjectFile?> GetProjectFileAsync(string itemId);
+    Task<string?> GetJSONFileAsync(string itemId);
 }
 
 public class JSONFileHandler : IJSONFileHandler
 {
 
-    public virtual async Task<ProjectFile?> GetProjectFileAsync(string itemId)
+    private readonly string _path;
+
+    public JSONFileHandler(IWebHostEnvironment env)
+    {
+        _path = Path.Combine(env.ContentRootPath, "Data");
+    }
+
+    public virtual async Task<string?> GetJSONFileAsync(string itemId)
     {
         if (string.IsNullOrEmpty(itemId))
         {
-            Console.WriteLine($"GetProjectFile: {itemId} is not valid");
+            Console.WriteLine($"{itemId} is not valid");
+            return null;
+        }
+
+        if (!Directory.Exists(_path))
+        {
+            Console.WriteLine($"{_path} does not exist");
             return null;
         }
 
         try
         {
-            using FileStream fs = File.OpenRead($"{itemId}.json");
-            var options = new JsonSerializerOptions { Converters = { new BlindTypeSpecConverter() }, PropertyNameCaseInsensitive = true };
-            var jsonElement = await JsonSerializer.DeserializeAsync<ProjectFile>(fs, options);
-            return jsonElement;
-
+            return await File.ReadAllTextAsync(Path.Combine(_path, $"{itemId}.json"));
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"GetProjectFile Error: {ex.Message}");
+            Console.WriteLine($"Error: {ex.Message}");
             return null;
         }
     }

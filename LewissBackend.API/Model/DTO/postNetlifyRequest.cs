@@ -12,7 +12,7 @@ namespace LewissBackend.API.Model.DTO;
 [JsonDerivedType(typeof(ListFolderAction), typeDiscriminator: "listFolder")]
 public abstract class NetlifyRequestPayloadDTO
 {
-    public abstract Task<Result<JsonElement>> HandleRequestAsync();
+    public abstract Task<Result<string>> HandleRequestAsync();
 }
 
 public class DownloadJsonAction : NetlifyRequestPayloadDTO
@@ -26,19 +26,17 @@ public class DownloadJsonAction : NetlifyRequestPayloadDTO
     }
 
 
-    public override async Task<Result<JsonElement>> HandleRequestAsync()
+    public override async Task<Result<string>> HandleRequestAsync()
     {
 
-        var projectFile = await _jsonFileHandler.GetProjectFileAsync(itemId);
-        if (projectFile is null)
+        var jsonFileAsString = await _jsonFileHandler.GetJSONFileAsync(itemId);
+        if (jsonFileAsString is null)
         {
-            return Result.Fail(new FailedToFetchFileError($"Project File {itemId}"));
+            return Result.Fail(new FailedToFetchFileError($"JSON File {itemId}"));
         }
 
-        var options = new JsonSerializerOptions { Converters = { new BlindTypeSpecConverter() }, PropertyNameCaseInsensitive = true };
-        var serializedObject = JsonSerializer.SerializeToElement(projectFile, options);
 
-        return Result.Ok(serializedObject);
+        return Result.Ok(jsonFileAsString);
     }
 }
 
@@ -53,7 +51,7 @@ public class ListFolderAction : NetlifyRequestPayloadDTO
     }
 
 
-    public override async Task<Result<JsonElement>> HandleRequestAsync()
+    public override async Task<Result<string>> HandleRequestAsync()
     {
         throw new NotImplementedException();
     }
