@@ -1,9 +1,10 @@
 using System.Text.Json;
 using FluentResults;
+using LewissBackend.API.Data;
 using LewissBackend.API.Model.DTO;
 using LewissBackend.API.Model.Entity;
 using LewissBackend.API.Service;
-using Microsoft.AspNetCore.Mvc;
+using Moq;
 using Xunit.Abstractions;
 
 namespace LewissBackend.API.Tests.Service;
@@ -17,15 +18,18 @@ public class NetlifyServiceTests
         _logger = logger;
     }
 
-    [Fact]
-    public async Task GetRequestedItemAsync_ReturnsJson_ValidDownloadJsonPayload()
+    [Theory]
+    [InlineData(100021)]
+    [InlineData(100156)]
+    public async Task GetRequestedItemAsync_ReturnsJson_ValidDownloadJsonPayload(int itemId)
     {
 
         var netlifyService = new NetlifyService();
 
-        var itemId = 12345;
+        var JSONFileHandlerMock = new Mock<IJSONFileHandler>();
+        JSONFileHandlerMock.Setup(x => x.GetProjectFileAsync(It.IsAny<String>())).ReturnsAsync(new ProjectFile() { Id = itemId });
 
-        var payload = new DownloadJsonAction()
+        var payload = new DownloadJsonAction(JSONFileHandlerMock.Object)
         {
             itemId = itemId.ToString()
         };
@@ -38,6 +42,7 @@ public class NetlifyServiceTests
         var fluentResult = Assert.IsType<Result<JsonElement>>(result);
 
 
+
         Assert.True(fluentResult.IsSuccess);
 
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new BlindTypeSpecConverter() } };
@@ -45,9 +50,6 @@ public class NetlifyServiceTests
         Assert.NotNull(project);
 
         Assert.Equal(itemId, project.Id);
-
-
-
 
     }
 }

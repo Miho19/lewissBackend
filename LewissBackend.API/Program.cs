@@ -1,3 +1,4 @@
+using LewissBackend.API.Data;
 using LewissBackend.API.ExceptionHandler;
 using LewissBackend.API.Service;
 
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddTransient<IStaffService, StaffService>();
 builder.Services.AddTransient<INetlifyService, NetlifyService>();
+builder.Services.AddTransient<IJSONFileHandler, JSONFileHandler>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

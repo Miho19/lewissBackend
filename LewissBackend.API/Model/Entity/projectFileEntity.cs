@@ -4,11 +4,11 @@ namespace LewissBackend.API.Model.Entity;
 public class ProjectFile
 {
     public required int Id { get; set; }
-    public required string Name { get; set; }
-    public required string Reference { get; set; }
-    public required string SalesConsultant { get; set; }
+    public string? Name { get; set; }
+    public string? Reference { get; set; }
+    public string? SalesConsultant { get; set; }
 
-    public required Project Project { get; set; }
+    public Project? Project { get; set; }
 
 }
 
